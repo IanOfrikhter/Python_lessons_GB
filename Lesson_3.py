@@ -136,6 +136,13 @@ assert 'This' == int_func('this')
 заглавной буквы. Используйте написанную ранее функцию int_func().
 '''
 
+# Если надо обязательно "Используйте написанную ранее функцию int_func()." то
+def int_func_2(words):
+    word_list = map(int_func, words.split())
+    return (' '.join(word_list))
+
+
+# изначально делел без int_func
 def int_func(words):
     try:
         words.encode(encoding='utf-8').decode('ascii')  # остальные знаки в ascii можно считать латиницей?
@@ -146,3 +153,4 @@ def int_func(words):
 
 
 assert 'This Is Tik_7' == int_func('this is tik_7')
+assert 'This Is Tik_7' == int_func_2('this is tik_7')
