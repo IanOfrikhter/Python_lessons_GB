@@ -128,6 +128,7 @@ def int_func(word):
 
     return word.capitalize()
 
+
 assert 'This' == int_func('this')
 
 '''
