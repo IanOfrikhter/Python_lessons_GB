@@ -1,6 +1,7 @@
 import sys
 from decimal import Decimal
 from functools import reduce
+from itertools import count, cycle
 
 exec(open('scr.py').read())
 
@@ -65,6 +66,28 @@ cycle() модуля itertools. Обратите внимание, что соз
 завершения. #### Например, в первом задании выводим целые числа, начиная с 3. При достижении числа 10 — завершаем цикл. 
 Вторым пунктом необходимо предусмотреть условие, при котором повторение элементов списка прекратится.
 '''
+
+
+for i in count(3):
+    if i <= 10:
+        print(i)
+    else:
+        break
+
+c = 0
+for i in cycle([3, 6, 9, 12]):
+    if c < 10:
+        c += 1
+        print(i)
+    else:
+        break
+
+
+
+
+
+
+
 
 
 
