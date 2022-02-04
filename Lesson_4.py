@@ -110,5 +110,5 @@ def factorial(n):
         yield fact
 
 print('Задание 7 - ')
-for i in factorial(5):
+for i in factorial(4):
     print(i)
