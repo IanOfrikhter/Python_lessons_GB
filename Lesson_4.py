@@ -109,6 +109,6 @@ def factorial(n):
         fact = reduce(lambda x, y: x * y, range(1, itr+1), 1)
         yield fact
 
-
+print('Задание 7 - ')
 for i in factorial(5):
     print(i)
