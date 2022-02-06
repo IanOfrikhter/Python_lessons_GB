@@ -1,3 +1,5 @@
+from functools import reduce
+
 '''
 1. Создать программный файл в текстовом формате, записать в него построчно данные, вводимые пользователем. Об окончании
 ввода данных будет свидетельствовать пустая строка.
@@ -24,7 +26,7 @@ tik_1()
 '''
 
 
-def tik_3():
+def tik_2():
     with open("tik_2_file.txt", 'r', encoding='utf-8') as f:
         strings_list = f.read()
 
@@ -39,7 +41,7 @@ def tik_3():
         for i, val in report.items():
             print("{:<12} {:<12}".format(i, val))
 
-tik_3()
+tik_2()
 
 '''
 3. Создать текстовый файл (не программно). Построчно записать фамилии сотрудников и величину их окладов 
@@ -51,13 +53,14 @@ tik_3()
 Петров 13749.32
 '''
 
-with open("tik_3_file.txt", 'r', encoding='utf-8') as f:
-    list_of_abused_em = [line.split()[0] for line in f if float(line.split()[1]) < 20000]
-    print('Работники с ЗП менее 20000 - ', list_of_abused_em)
-    print
 
+def tik_3():
+    with open("tik_3_file.txt", 'r', encoding='utf-8') as f:
+        data = {line.split()[0]: float(line.split()[1]) for line in f}
+    # все данные из файла мы уже взяли, можно его закрыть
+    print('Работники с ЗП менее 20тыс - ', str([key for key, val in data.items() if val < 20000]))
 
-
+tik_3()
 
 
 
