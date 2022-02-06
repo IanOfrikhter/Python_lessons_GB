@@ -5,7 +5,7 @@
 
 
 def tik_1():
-    with open("tik_1_file.txt", 'w') as f:
+    with open("tik_1_file.txt", 'w', encoding='utf-8') as f:
         while True:
             data_str = input('Введите что нибудь, для остановки ввода оставьте пустою строку '
                             'и нажмите Enter ')
@@ -16,20 +16,54 @@ def tik_1():
                 f.write(data_str + '\n')
 
 
+tik_1()
+
 '''
 2. Создать текстовый файл (не программно), сохранить в нём несколько строк, выполнить подсчёт строк и слов в каждой 
 строке.
 '''
 
-# Имя фаила
-with open("tik_1_file.txt", 'r') as f:
-    strings_list = f.read().split(sep='\n')   # разбивка построчно
 
-    report_data = {str_num: word_count for str_num, data in  strings_list}
+def tik_3():
+    with open("tik_2_file.txt", 'r', encoding='utf-8') as f:
+        strings_list = f.read()
 
-    print('Колличество строк - ', len(strings_list))
+        # заголовок мини-отчета
+        report = {'№ строки': 'Кол-во слов'}
 
-    print()
+        # соберем отчет из номеров строк и колличества слов в них
+        report_data = {i+1: len(val.split()) for i, val in enumerate(strings_list.split('\n'))}
+        report.update(report_data)
+
+        #  выведем мини-отчет
+        for i, val in report.items():
+            print("{:<12} {:<12}".format(i, val))
+
+tik_3()
+
+'''
+3. Создать текстовый файл (не программно). Построчно записать фамилии сотрудников и величину их окладов 
+(не менее 10 строк). Определить, кто из сотрудников имеет оклад менее 20 тысяч, вывести фамилии этих сотрудников. 
+Выполнить подсчёт средней величины дохода сотрудников.
+Пример файла:
+
+Иванов 23543.12
+Петров 13749.32
+'''
+
+with open("tik_3_file.txt", 'r', encoding='utf-8') as f:
+    list_of_abused_em = [line.split()[0] for line in f if float(line.split()[1]) < 20000]
+    print('Работники с ЗП менее 20000 - ', list_of_abused_em)
+    print
+
+
+
+
+
+
+
+
+
 
 
 
