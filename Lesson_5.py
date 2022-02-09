@@ -1,4 +1,6 @@
 from functools import reduce
+from random import randint
+
 
 '''
 1. Создать программный файл в текстовом формате, записать в него построчно данные, вводимые пользователем. Об окончании
@@ -7,7 +9,7 @@ from functools import reduce
 
 
 def tik_1():
-    with open("tik_1_file.txt", 'w', encoding='utf-8') as f:
+    with open("lesson_5_files/tik_1_file.txt", 'w', encoding='utf-8') as f:
         while True:
             data_str = input('Введите что нибудь, для остановки ввода оставьте пустою строку '
                             'и нажмите Enter ')
@@ -17,8 +19,7 @@ def tik_1():
             else:
                 f.write(data_str + '\n')
 
-
-tik_1()
+#tik_1()
 
 '''
 2. Создать текстовый файл (не программно), сохранить в нём несколько строк, выполнить подсчёт строк и слов в каждой 
@@ -27,7 +28,7 @@ tik_1()
 
 
 def tik_2():
-    with open("tik_2_file.txt", 'r', encoding='utf-8') as f:
+    with open("lesson_5_files/tik_2_file.txt", 'r', encoding='utf-8') as f:
         strings_list = f.read()
 
         # заголовок мини-отчета
@@ -41,7 +42,7 @@ def tik_2():
         for i, val in report.items():
             print("{:<12} {:<12}".format(i, val))
 
-tik_2()
+#tik_2()
 
 '''
 3. Создать текстовый файл (не программно). Построчно записать фамилии сотрудников и величину их окладов 
@@ -55,12 +56,90 @@ tik_2()
 
 
 def tik_3():
-    with open("tik_3_file.txt", 'r', encoding='utf-8') as f:
+    with open("lesson_5_files/tik_3_file.txt", 'r', encoding='utf-8') as f:
         data = {line.split()[0]: float(line.split()[1]) for line in f}
     # все данные из файла мы уже взяли, можно его закрыть
-    print('Работники с ЗП менее 20тыс - ', str([key for key, val in data.items() if val < 20000]))
+    # Посчитаем среднюю ЗП, разбив на строки для читаемости
+    total_salary = reduce(lambda x, y: x+y, [val for val in data.values()])
+    print('Средняя ЗП -', total_salary / len(data.keys()))
 
-tik_3()
+    # Выведем работников с ЗП менее 20 тыс.
+    print('Работники с ЗП менее 20тыс - ', end = '')
+    print(*[key for key, val in data.items() if val < 20000], sep=', ')
+
+
+print('Задание 3')
+#tik_3()
+
+'''
+4. Создать (не программно) текстовый файл со следующим содержимым:
+One — 1
+Two — 2
+Three — 3
+Four — 4
+Напишите программу, открывающую файл на чтение и считывающую построчно данные. При этом английские числительные должны 
+заменяться на русские. Новый блок строк должен записываться в новый текстовый файл.
+'''
+
+def tik_4():
+    with open('lesson_5_files/tik_4_english.txt', 'r', encoding='utf-8') as f:
+        # нам все равно обратно записывать тем же блоком, разбивать не будем
+        text = f.read()
+
+    # можно конечно воспользоваться API переводчика, но пока оставим так
+    text = text.replace('One', 'Один')
+    text = text.replace('Two', 'Два')
+    text = text.replace('Three', 'Три')
+    text = text.replace('Four', 'Четыре')
+
+    # старый фаил не трогаем, создаем новые
+    with open('lesson_5_files/tik_4_ru.txt', 'w', encoding='utf-8') as f:
+        f.write(text)
+
+
+'''
+5. Создать (программно) текстовый файл, записать в него программно набор чисел, разделённых пробелами. Программа должна 
+подсчитывать сумму чисел в файле и выводить её на экран.
+'''
+
+# создаем строку
+string = [str(randint(1, 100)) for i in range(20)]
+string = ' '.join(string)
+
+# запишем в фаил
+with open('lesson_5_files/tik_5.txt', 'w', encoding='utf-8') as f:
+    f.write(string)
+
+print(string)
+
+# прочитаем
+with open('lesson_5_files/tik_5.txt', 'r', encoding='utf-8') as f:
+    num_list = f.read().split()
+
+print(num_list)
+
+
+
+'''
+6. Сформировать (не программно) текстовый файл. В нём каждая строка должна описывать учебный предмет и наличие 
+лекционных, практических и лабораторных занятий по предмету. Сюда должно входить и количество занятий. Необязательно, 
+чтобы для каждого предмета были все типы занятий.
+Сформировать словарь, содержащий название предмета и общее количество занятий по нему. Вывести его на экран.
+Примеры строк файла: Информатика: 100(л) 50(пр) 20(лаб).
+Физика: 30(л) — 10(лаб)
+Физкультура: — 30(пр) —
+Пример словаря: {“Информатика”: 170, “Физика”: 40, “Физкультура”: 30}
+'''
+
+'''
+# Взял фрагмент реального учебного плана
+with open('tik_6.txt', 'r', encoding='utf-8') as f:
+    text = f.read().split('\n')
+
+# чтобы не использовать pandas скопировал в блокнот из экселя, разделитель - зн. табуляции
+
+print(text)
+'''
 
 
 
