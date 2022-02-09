@@ -72,7 +72,7 @@ def tik_3():
 
 
 print('Задание 3')
-#tik_3()
+tik_3()
 
 
 '''
@@ -101,9 +101,9 @@ def tik_4():
     with open('lesson_5_files/tik_4_ru.txt', 'w', encoding='utf-8') as f:
         f.write(text)
 
+
 print('Задание 4')
 tik_4()
-
 '''
 5. Создать (программно) текстовый файл, записать в него программно набор чисел, разделённых пробелами. Программа должна 
 подсчитывать сумму чисел в файле и выводить её на экран.
@@ -111,15 +111,13 @@ tik_4()
 
 
 def tik_5():
-    # создаем строку
-    string = [str(randint(1, 100)) for i in range(20)]
+    # создаем строку со случайными числами
+    string = [str(randint(1, 100)) for i in range(randint(10, 30))]
     string = ' '.join(string)
 
     # запишем в фаил
     with open('lesson_5_files/tik_5.txt', 'w', encoding='utf-8') as f:
         f.write(string)
-
-    print(string)
 
     # прочитаем
     with open('lesson_5_files/tik_5.txt', 'r', encoding='utf-8') as f:
