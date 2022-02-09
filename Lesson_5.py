@@ -192,18 +192,15 @@ def tik_7():
 
     firm_lists = [firm_list.split() for firm_list in data.split('\n')]
 
-    firm_names = []
-    firm_profits = []
-    firms_total_profits = 0
+    # соберем имена и прибыль
+    company_names = data.split()[::4]
+    company_profit = [float(rev) - float(pay) for rev, pay in zip(data.split()[2::4], data.split()[3::4])]
 
-    for firm_list in firm_lists:
-        firm_names.append(firm_list[0])
-        firm_profits.append(float(firm_list[2]) - float(firm_list[3]))
-        firms_total_profits += float(firm_list[2]) - float(firm_list[3])
+    # Составим словари
+    firm_data_dict = {firm_name: firm_profit for firm_name, firm_profit in zip(company_names, company_profit)}
+    average_dict = {"average_profit": sum(company_profit) / len(firm_lists)}
 
-    firm_data_dict = {firm_name: firm_profit for firm_name, firm_profit in zip(firm_names, firm_profits)}
-    average_dict = {"average_profit": firms_total_profits/len(firm_lists)}
-
+    # Итоговый список из двух словарей
     to_json_result_list = [firm_data_dict, average_dict]
 
     with open("lesson_5_files/tik_7_json.json", "w") as f:
