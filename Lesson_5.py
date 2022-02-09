@@ -9,7 +9,6 @@ import json
 ввода данных будет свидетельствовать пустая строка.
 '''
 
-
 def tik_1():
     with open("lesson_5_files/tik_1_file.txt", 'w', encoding='utf-8') as f:
         while True:
