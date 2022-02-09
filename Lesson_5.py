@@ -1,5 +1,7 @@
 from functools import reduce
 from random import randint
+import re
+import json
 
 
 '''
@@ -19,7 +21,8 @@ def tik_1():
             else:
                 f.write(data_str + '\n')
 
-#tik_1()
+print('Задание 1')
+tik_1()
 
 '''
 2. Создать текстовый файл (не программно), сохранить в нём несколько строк, выполнить подсчёт строк и слов в каждой 
@@ -42,7 +45,8 @@ def tik_2():
         for i, val in report.items():
             print("{:<12} {:<12}".format(i, val))
 
-#tik_2()
+print('Задание 2')
+tik_2()
 
 '''
 3. Создать текстовый файл (не программно). Построчно записать фамилии сотрудников и величину их окладов 
@@ -71,6 +75,7 @@ def tik_3():
 print('Задание 3')
 #tik_3()
 
+
 '''
 4. Создать (не программно) текстовый файл со следующим содержимым:
 One — 1
@@ -80,6 +85,7 @@ Four — 4
 Напишите программу, открывающую файл на чтение и считывающую построчно данные. При этом английские числительные должны 
 заменяться на русские. Новый блок строк должен записываться в новый текстовый файл.
 '''
+
 
 def tik_4():
     with open('lesson_5_files/tik_4_english.txt', 'r', encoding='utf-8') as f:
@@ -92,33 +98,40 @@ def tik_4():
     text = text.replace('Three', 'Три')
     text = text.replace('Four', 'Четыре')
 
-    # старый фаил не трогаем, создаем новые
+    # старый фаил не трогаем, создаем новый
     with open('lesson_5_files/tik_4_ru.txt', 'w', encoding='utf-8') as f:
         f.write(text)
 
+print('Задание 4')
+tik_4()
 
 '''
 5. Создать (программно) текстовый файл, записать в него программно набор чисел, разделённых пробелами. Программа должна 
 подсчитывать сумму чисел в файле и выводить её на экран.
 '''
 
-# создаем строку
-string = [str(randint(1, 100)) for i in range(20)]
-string = ' '.join(string)
 
-# запишем в фаил
-with open('lesson_5_files/tik_5.txt', 'w', encoding='utf-8') as f:
-    f.write(string)
+def tik_5():
+    # создаем строку
+    string = [str(randint(1, 100)) for i in range(20)]
+    string = ' '.join(string)
 
-print(string)
+    # запишем в фаил
+    with open('lesson_5_files/tik_5.txt', 'w', encoding='utf-8') as f:
+        f.write(string)
 
-# прочитаем
-with open('lesson_5_files/tik_5.txt', 'r', encoding='utf-8') as f:
-    num_list = f.read().split()
+    print(string)
 
-print(num_list)
+    # прочитаем
+    with open('lesson_5_files/tik_5.txt', 'r', encoding='utf-8') as f:
+        num_list = f.read().split()
+
+    num_list = [int(i) for i in num_list]
+    print(sum(num_list))
 
 
+print('Задание 5')
+tik_5()
 
 '''
 6. Сформировать (не программно) текстовый файл. В нём каждая строка должна описывать учебный предмет и наличие 
@@ -131,15 +144,81 @@ print(num_list)
 Пример словаря: {“Информатика”: 170, “Физика”: 40, “Физкультура”: 30}
 '''
 
-'''
-# Взял фрагмент реального учебного плана
-with open('tik_6.txt', 'r', encoding='utf-8') as f:
-    text = f.read().split('\n')
 
-# чтобы не использовать pandas скопировал в блокнот из экселя, разделитель - зн. табуляции
+def tik_6():
+    with open('lesson_5_files/tik_6.txt', 'r', encoding='utf-8') as f:
+        data = f.read()
 
-print(text)
+    # многое зависит от того, как записали фаил
+    strings = data.split('\n')  # разные строки это точно разные предметы
+
+    # раз нам нужна просто сумма, удалим все личшее
+    strings = [dis.split(' ') for dis in strings]
+
+    # для читаемости завернем в for
+    keys = []; num_list = []
+    for dis_list in strings:
+        keys.append(dis_list[0])
+        numbers = [float(re.sub("[^0-9]", "", num)) for num in dis_list[1:] if not re.sub("[^0-9]", "", num) == '']
+        num_list.append(numbers)
+
+    # соберем результат из списка ключей и часов
+    result_dict = {key: sum(hours) for key, hours in zip(keys, num_list)}
+    print(result_dict)
+
+
+print('Задание 6')
+tik_6()
+
 '''
+7. Создать вручную и заполнить несколькими строками текстовый файл, в котором каждая строка будет содержать данные о 
+фирме: название, форма собственности, выручка, издержки.
+Пример строки файла: firm_1 ООО 10000 5000.
+
+Необходимо построчно прочитать файл, вычислить прибыль каждой компании, а также среднюю прибыль. Если фирма получила 
+убытки, в расчёт средней прибыли её не включать.
+Далее реализовать список. Он должен содержать словарь с фирмами и их прибылями, а также словарь со средней прибылью. 
+Если фирма получила убытки, также добавить её в словарь (со значением убытков).
+Пример списка: [{“firm_1”: 5000, “firm_2”: 3000, “firm_3”: 1000}, {“average_profit”: 2000}].
+
+Итоговый список сохранить в виде json-объекта в соответствующий файл.
+Пример json-объекта:
+[{"firm_1": 5000, "firm_2": 3000, "firm_3": 1000}, {"average_profit": 2000}]
+Подсказка: использовать менеджер контекста.
+'''
+
+def tik_7():
+    with open('lesson_5_files/tik_7.txt', 'r', encoding='utf-8') as f:
+        data = f.read()
+
+    firm_lists = [firm_list.split() for firm_list in data.split('\n')]
+
+    firm_names = []
+    firm_profits = []
+    firms_total_profits = 0
+
+    for firm_list in firm_lists:
+        firm_names.append(firm_list[0])
+        firm_profits.append(float(firm_list[2]) - float(firm_list[3]))
+        firms_total_profits += float(firm_list[2]) - float(firm_list[3])
+
+    firm_data_dict = {firm_name: firm_profit for firm_name, firm_profit in zip(firm_names, firm_profits)}
+    average_dict = {"average_profit": firms_total_profits/len(firm_lists)}
+
+    to_json_result_list = [firm_data_dict, average_dict]
+
+    with open("lesson_5_files/tik_7_json.json", "w") as f:
+        json.dump(to_json_result_list, f)
+
+print('Задание 7')
+tik_7()
+
+
+
+
+
+
+
 
 
 
