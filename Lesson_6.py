@@ -13,37 +13,31 @@ from time import sleep
 Задачу можно усложнить, реализовав проверку порядка режимов. При его нарушении выводить соответствующее сообщение и 
 завершать скрипт.
 '''
-print('----------------------Задание 3')
+print('----------------------Задание 1')
 
 
 class TrafficLight:
-
-    def __init__(self):
-            self.__color = False
-
-    def running(self, green_time = 10):
-        prev_color = None
-        if not self.__color:
-            self.__color == 'red'
-            sleep(7)
-        elif self.__color == 'red':
-            self.__color = 'yellow'
-            sleep(2)
-        elif self.__color == 'yellow':
-            self.__color = 'green'
-            sleep(green_time)
+    __color = ['Красный', 'Желтый', 'Зеленый']
 
 
+    def running(self):
+        i = 0
+        while i < 3:
+            print(f'Светофор переключился на \n '
+                  f'{TrafficLight.__color[i]}')
+            if i == 0:
+                sleep(7)
+            elif i == 1:
+                sleep(2)
+            elif i == 2:
+                sleep(5)
+            i += 1
 
-# Переключим 10 раз
+
 TL = TrafficLight()
-print(TL._TrafficLight__color)
 TL.running()
 
-print(TL._TrafficLight__color)
 
-TL.running()
-print(TL._TrafficLight__color)
 
 '''
 2. Реализовать класс Road (дорога).
@@ -56,7 +50,7 @@ print(TL._TrafficLight__color)
 проверить работу метода.
 Например: 20 м*5000 м*25 кг*5 см = 12500 т.
 '''
-print('----------------------Задание 3')
+print('----------------------Задание 2')
 
 
 class Road:
