@@ -38,7 +38,6 @@ TL = TrafficLight()
 TL.running()
 
 
-
 '''
 2. Реализовать класс Road (дорога).
 определить атрибуты: length (длина), width (ширина);
