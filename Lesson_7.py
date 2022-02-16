@@ -1,4 +1,5 @@
 import itertools
+from abc import ABC, abstractmethod
 '''
 1. Реализовать класс Matrix (матрица). Обеспечить перегрузку конструктора класса (метод __init__()), который должен
 принимать данные (список списков) для формирования матрицы.
@@ -94,7 +95,43 @@ print(martix_1 + martix_2)
 '''
 
 
-class Dress:
+class Clothes(ABC):
+    # раз параметр все равно один, передадим его тут
+    def __init__(self, param):
+        self.param = param
+
+    @abstractmethod
+    def material_consumption(self):
+        pass
+
+    def __str__(self):
+        return str(self.param)
+
+
+class Coat(Clothes):
+
+    @property
+    def material_consumption (self):
+        return self.param / 6.5 + 0.5
+
+
+class Suit(Clothes):
+
+    @property
+    def material_consumption(self):
+        return self.param * 2 + 0.3
+
+
+print('Задание_2')
+# создаем пальто
+Coat_1 = Coat(54)
+
+# создаем костюм
+Suit_1 = Suit(1.75)
+
+# Считаем потребление
+print(Coat_1.material_consumption)
+print(Suit_1.material_consumption)
 
 
 
