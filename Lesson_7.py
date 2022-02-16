@@ -198,12 +198,11 @@ class Cell:
 Cell_1 = Cell(25)
 Cell_2 = Cell(6)
 
-
+# произведем все операции и вызовем метод make_order
 print('Cell_1 + Cell_2 = ', Cell_1 + Cell_2)
 print('Cell_1 - Cell_2 = ', Cell_1 - Cell_2)
 print('Cell_1 * Cell_2 = ', Cell_1 * Cell_2)
 print('Cell_1 / Cell_2 = ', Cell_1 / Cell_2)
-
 print(Cell_1.make_order(6))
 
 
