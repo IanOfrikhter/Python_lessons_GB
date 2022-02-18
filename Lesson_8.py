@@ -52,7 +52,9 @@ print(Date.date_to_digit('23-04-2010'))
 '''
 
 
+class ZeroDiv(ZeroDivisionError):
 
+    pass
 
 
 
@@ -96,8 +98,14 @@ print(result_list)
 который будет базовым для классов-наследников. Эти классы — конкретные типы оргтехники (принтер, сканер, ксерокс). 
 В базовом классе определите параметры, общие для приведённых типов. В классах-наследниках реализуйте параметры, 
 уникальные для каждого типа оргтехники.
-'''
 
+5. Продолжить работу над первым заданием. Разработайте методы, которые отвечают за приём оргтехники на склад и передачу 
+в определённое подразделение компании. Для хранения данных о наименовании и количестве единиц оргтехники, а также других
+данных, можно использовать любую подходящую структуру (например, словарь).
+
+6. Продолжить работу над вторым заданием. Реализуйте механизм валидации вводимых пользователем данных. Например, для 
+указания количества принтеров, отправленных на склад, нельзя использовать строковый тип данных.
+'''
 
 class Storage:
     location_list = []  # список адресов всех складов
@@ -138,12 +146,12 @@ class Storage:
         if equipt.model in self.storage.keys():
             self.storage[equipt.model]['num'] += count
         else:
-            self.storage.update({equipt.model: {'num': 1,
+            self.storage.update({equipt.model: {'num': count,
                                                 'mass': equipt.mass,
                                                 'area': equipt.box_area * equipt.mov_coff,
                                                 'add_data': equipt.add_data}})
 
-    def take_item(self, model, count = 1): # достаточно наименования
+    def take_item(self, model, count = 1): #достаточно наименования
         if not type(count) == int:
             print('Count have to be int > 0')
             raise Exception
@@ -151,6 +159,97 @@ class Storage:
         if count < 0:
             print('Count have to be int > 0')
             raise Exception
+
+        if model in self.storage.keys():
+            if self.storage[model]['num'] >= count:
+                self.storage[model]['num'] -= count # не удаляем всю запись, чтобы помнить что попадало на склад
+            else:
+                print('Недостаточно товаров на складе')
+        else:
+            print('Таких товаров на складе нет, и не было')
+
+    def show_storage_data(self):
+        return self.storage
+
+
+class OfficeEq:
+    def __init__(self, model, mass, box_area):
+        try:
+            float(mass)
+        except:
+            print(f'масса - {mass} для модели {model} указана не корректно')
+            raise ValueError
+
+        try:
+            float(box_area)
+        except:
+            print(f'занимаемая площадь {box_area} для модели {model} указана не корректно')
+            raise ValueError
+
+        self.model = model
+        self.mass = mass            # масса коробки
+        self.box_area = box_area    # занимаемая площадь коробки (c учетом многоярусности)
+
+    pass
+
+
+class Printer(OfficeEq):
+    def __init__(self, model, mass, box_area, add_data = [], mov_coff=0.8):
+        super().__init__(model, mass, box_area)
+
+        self.mov_coff = mov_coff # запас по площади (0.5 - 1), создание удобного для перемещения пространста
+        self.add_data = add_data  # контейнер для любой другой информации
+    pass
+
+
+class Scanner(OfficeEq):
+    def __init__(self, model, mass, box_area, add_data = [], mov_coff=0.7):
+        super().__init__(model, mass, box_area)
+        self.mov_coff = mov_coff   # запас по площади (0.5 - 1), создание удобного для перемещения пространста
+        self.add_data = add_data   # контейнер для любой другой информации
+    pass
+
+
+# создадим склад - 1
+Storage_1 = Storage(25, 'Крупская 15')
+print(Storage_1)
+
+# потытаемся создать склад 2 на том же адресе, что не получится
+try:
+    Storage_2 = Storage(50, 'Крупская 15')
+except ValueError:
+    pass
+# print(Storage_2) # <--- попытка обратиться к несуществующему складу
+
+# Создадим склад 2 на соседнем адресе
+Storage_2 = Storage(50, 'Крупская 16')
+
+# Проверим список созданных складов:
+print(Storage_2.location_list)
+
+# создадим немного оргтехники
+prt_HP = Printer('107wr', 7.1, 0.15)
+scn_Espada = Scanner('EC717', 2.2, 0.1)
+
+# выведем состав склада 1:
+print(Storage_1.show_storage_data())
+
+# добавим на склад один несколько 2 сканера и принтер и выведем состав склада 1::
+Storage_1.add(prt_HP)
+Storage_1.add(scn_Espada, 2)
+print(Storage_1.show_storage_data())
+
+# удалим со склада один товар (несуществующий):
+Storage_1.take_item('1099er')
+
+# заберем 2  товара, когда есть только 1
+Storage_1.take_item('107wr', 2)
+
+# удалим 1  товар
+Storage_1.take_item('107wr')
+
+# выведем состав склада 1:
+print(Storage_1.show_storage_data())
 
 
 
