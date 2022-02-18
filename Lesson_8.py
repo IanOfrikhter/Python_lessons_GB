@@ -197,7 +197,6 @@ class OfficeEq:
         self.model = model
         self.mass = mass            # масса коробки
         self.box_area = box_area    # занимаемая площадь коробки (c учетом многоярусности)
-
     pass
 
 
