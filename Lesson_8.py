@@ -21,7 +21,6 @@ class Date:
 
         return date_list
 
-
     @classmethod
     def date_to_digit (cls, date, date_type='NL'):
         date_list = date.split('-')
@@ -35,13 +34,11 @@ class Date:
 
         return date_list
 
+print('Задание 1')
 
 date_1 = Date('10-02-1995')
-
 print(date_1)
-
 print(date_1.date)
-
 print(Date.date_to_digit('23-04-2010'))
 
 
@@ -51,11 +48,23 @@ print(Date.date_to_digit('23-04-2010'))
 завершиться с ошибкой.
 '''
 
+# на самом деле не очень понятно что надо делать, класс от ZeroDivisionError, Exception или просто класс c функцией
+# внутри
 
-class ZeroDiv(ZeroDivisionError):
+class ZeroDiv:
+    def __init__(self, divider, denominator):
+        self.divider = divider
+        self.denominator = denominator
 
-    pass
+    @staticmethod
+    def divide_by_zero(divider, denominator):
+        try:
+            return (divider / denominator)
+        except ZeroDivisionError:
+            return False
 
+print('Задание 2')
+print(ZeroDiv.divide_by_zero(10, 0))
 
 
 '''
@@ -74,7 +83,6 @@ class ZeroDiv(ZeroDivisionError):
 
 class NotNumber(ValueError):
     pass
-
 
 print('Задание 3')
 result_list = []
@@ -106,7 +114,7 @@ print(result_list)
 6. Продолжить работу над вторым заданием. Реализуйте механизм валидации вводимых пользователем данных. Например, для 
 указания количества принтеров, отправленных на склад, нельзя использовать строковый тип данных.
 '''
-
+print('Задание 4, 5, 6')
 class Storage:
     location_list = []  # список адресов всех складов
 
@@ -259,24 +267,24 @@ print(Storage_1.show_storage_data())
 (комплексные числа), выполните сложение и умножение созданных экземпляров. Проверьте корректность полученного 
 результата.
 '''
+print('Задание 7')
 
 
 class ComNum:
-    def __init__(self, a, b, *args):
-        self.a = a
-        self.b = b
-        self.z = 'a + b * i'
+    def __init__(self, real, complex):
+        self.real = real
+        self.complex = complex
 
     def __add__(self, other):
-        print(f'Сумма z1 и z2 равна')
-        return f'z = {self.a + other.a} + {self.b + other.b} * i'
+        print(f'Сумма равна')
+        return f'{self.real + other.real} + {self.complex + other.complex}i'
 
     def __mul__(self, other):
-        print(f'Произведение z1 и z2 равно')
-        return f'z = {self.a * other.a - (self.b * other.b)} + {self.b * other.a} * i'
+        print(f'Произведение равно')
+        return f'{self.real * other.real - (self.real * other.complex)} + {self.complex * other.real}i'
 
     def __str__(self):
-        return f'z = {self.a} + {self.b} * i'
+        return f'{self.real} + {self.complex}i'
 
 
 z_1 = ComNum(1, -2)
